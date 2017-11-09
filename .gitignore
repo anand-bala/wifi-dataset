@@ -1,0 +1,14 @@
+# Data folder and items
+data/
+*.bag
+
+# Catkin generated dirs
+build/
+devel/
+install/
+
+build_isolated/
+devel_isolated/
+install_isolated/
+
+
