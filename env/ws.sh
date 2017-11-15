@@ -2,6 +2,7 @@
 
 function turtlebot_master {
   export ROS_MASTER_URI="http://10.42.0.1:11311"
+  export ROS_IP=`hostname -I | head -n1 | cut -d " " -f1`
 }
 
 function ws_source {
@@ -51,7 +52,6 @@ function ws_source {
   fi
   source $src2/setup.sh
   source $src1/setup.sh --extend
-
 }
 
 
