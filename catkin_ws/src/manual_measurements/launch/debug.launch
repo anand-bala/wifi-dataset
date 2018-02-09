@@ -1,0 +1,4 @@
+<launch>
+    <node name="AccessPointsReader" pkg="manual_measurements" type="measure.py" output="screen" />
+    <!-- <node name="botmover" pkg="drones_move" type="botmover.py" output="screen" /> -->
+</launch>
