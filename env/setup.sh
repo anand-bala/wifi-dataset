@@ -5,6 +5,19 @@ function turtlebot_master {
   export ROS_IP=`hostname -I | head -n1 | cut -d " " -f1`
 }
 
+function init_workspace {
+  if [ "$#" -lt 2 ]; then
+    echo "Incorrect number of arguments"
+    echo "usage: init_workspace <path/to/workspace> <rosinstall file>"
+    return 1
+  fi
+  local ws="$1"
+  local rosinst="$2"
+  wstool init $ws/src 
+  wstool merge -t $ws/src $rosinst
+  return 0
+}
+
 function ws_source {
   local ws1=""
   local ws2=""
@@ -35,7 +48,9 @@ function ws_source {
   elif [ -d "$ws1/devel" ]; then
     local src1="$ws1/devel"
   else
-   echo "Please build the workspace in: $ws1"
+    echo "Checking if $ws1 is initialized"
+    init_workspace $ws1 ./catkin.rosinstall
+    echo "Please build the workspace in: $ws1"
    return
   fi
   if [ -d "$ws2/install_isolated" ]; then
@@ -47,8 +62,10 @@ function ws_source {
   elif [ -d "$ws2/devel" ]; then
     local src1="$ws2/devel"
   else
-   echo "Please build the workspace in: $ws1"
-   return
+    echo "Checking if $ws2 is initialized"
+    init_workspace $ws2 ./catkin.rosinstall
+    echo "Please build the workspace in: $ws2"
+    return
   fi
   source $src2/setup.sh
   source $src1/setup.sh --extend

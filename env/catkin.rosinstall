@@ -1,0 +1,8 @@
+- git:
+    local-name: dataset_ros
+    uri: http://gitlab.drones.cse.buffalo.edu/anand/dataset_ros.git
+- git:
+    local-name: velodyne
+    uri: https://github.com/ros-drivers/velodyne
+
+
