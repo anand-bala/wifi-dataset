@@ -56,12 +56,21 @@ function ws_source {
 
 
 function carto_asset_writer {
+  if [ "$#" -lt 2 ]; then
+    echo "Insufficient number of arguments";
+    echo "usage: carto_asset_writer <bagfile> <pose_graph>";
+    return
+  fi
+
+  echo "Reading bagfile: `realpath $1`"
+  echo "Writing to file: `realpath $2`"
+  return
+
   $(ws_source)
   echo "ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}"
   roslaunch dataset_ros assets_writed_turtlebot_3d.launch \
 	bag_filename:=`realpath $1` \
 	pose_graph_filename:=`realpath $2`
-
 }
 
 ws_source
