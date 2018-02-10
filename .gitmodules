@@ -1,0 +1,8 @@
+[submodule "catkin_ws/src/velodyne"]
+	path = catkin_ws/src/velodyne
+	url = https://github.com/ros-drivers/velodyne
+	branch = master
+[submodule "catkin_ws/src/dataset_ros"]
+	path = catkin_ws/src/dataset_ros
+	url = git@gitlab.drones.cse.buffalo.edu:anand/dataset_ros.git
+	branch = master
