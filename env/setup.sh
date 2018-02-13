@@ -68,7 +68,7 @@ function ws_source {
     local src1="$ws2/devel"
   else
     echo "Checking if $ws2 is initialized"
-    init_workspace $ws2 ./catkin.rosinstall
+    # init_workspace $ws2 ./catkin.rosinstall
     echo "Please build the workspace in: $ws2"
     return
   fi
