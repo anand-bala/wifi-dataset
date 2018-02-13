@@ -5,6 +5,11 @@ function turtlebot_master {
   export ROS_IP=`hostname -I | head -n1 | cut -d " " -f1`
 }
 
+function open_vlp_feed {
+  sudo nmcli con up iface eth0 id vlp16
+}
+
+
 function init_workspace {
   if [ "$#" -lt 2 ]; then
     echo "Incorrect number of arguments"
