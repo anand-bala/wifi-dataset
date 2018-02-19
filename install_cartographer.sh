@@ -3,6 +3,7 @@
 # Install wstool and rosdep.
 sudo apt-get update
 sudo apt-get install -y python-wstool python-rosdep ninja-build
+sudo apt-get install -y realpath
 
 source /opt/ros/indigo/setup.bash
 

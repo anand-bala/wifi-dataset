@@ -53,8 +53,6 @@ function ws_source {
   elif [ -d "$ws1/devel" ]; then
     local src1="$ws1/devel"
   else
-    echo "Checking if $ws1 is initialized"
-    init_workspace $ws1 ./catkin.rosinstall
     echo "Please build the workspace in: $ws1"
    return
   fi
@@ -67,8 +65,6 @@ function ws_source {
   elif [ -d "$ws2/devel" ]; then
     local src1="$ws2/devel"
   else
-    echo "Checking if $ws2 is initialized"
-    # init_workspace $ws2 ./catkin.rosinstall
     echo "Please build the workspace in: $ws2"
     return
   fi
