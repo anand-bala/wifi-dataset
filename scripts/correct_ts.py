@@ -31,7 +31,7 @@ def fix(input_bag, output_bag, begin_time):
         for topic, msg, t in rosbag.Bag(input_bag).read_messages():
             tm_ = t
             if topic == "/tf"  and msg.transforms:
-                for transform in msgs.transforms:
+                for transform in msg.transforms:
                     diff_m = t - start
                     diff_h = transform.header.stamp - start
                     tm_ = begin_time + diff_m
