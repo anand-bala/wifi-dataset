@@ -29,11 +29,20 @@ def fix(input_bag, output_bag, begin_time):
     start = rospy.Time.from_sec(info_dict['start'])
     with rosbag.Bag(output_bag,'w') as out_bag:
         for topic, msg, t in rosbag.Bag(input_bag).read_messages():
-            diff_m = t - start
-            diff_h = msg.header.stamp - start
-            tm_ = begin_time + diff_m
-            th_ = begin_time + diff_h
-            msg.header.stamp = th_
+            tm_ = t
+            if topic == "/tf"  and msg.transforms:
+                for transform in msgs.transforms:
+                    diff_m = t - start
+                    diff_h = transform.header.stamp - start
+                    tm_ = begin_time + diff_m
+                    th_ = begin_time + diff_h
+                    transform.header.stamp = th_
+            else:
+                diff_m = t - start
+                # diff_h = msg.header.stamp - start
+                tm_ = begin_time + diff_m
+                th_ = begin_time + diff_h
+                # msg.header.stamp = th_
             out_bag.write(topic, msg, tm_) 
 
     return 0
