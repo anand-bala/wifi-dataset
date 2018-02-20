@@ -55,6 +55,6 @@ if __name__ == '__main__':
     if bags is None:
         return 1
 
-    return fix(*bags, begin_time)
+    return fix(bags[0], bags[1], begin_time)
 
 
