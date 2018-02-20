@@ -1,6 +1,17 @@
 #!/bin/bash
 
-ls /data/
+function myreadlink() {
+  (
+  cd $(dirname $1)         # or  cd ${1%/*}
+  echo $PWD/$(basename $1) # or  echo $PWD/${1##*/}
+  )
+}
+
+
+ls /data
+
+ln -sf /dev/stdout /data/access.log \
+  && ln -sf /dev/stderr /data/error.log
 
 if [ "$#" -ne 1 ]; then
   echo "Incorrect usage."
@@ -8,10 +19,13 @@ if [ "$#" -ne 1 ]; then
   exit 1;
 fi
 
+pwd
+
+
 source /opt/ros/indigo/setup.bash
-source env/ws.sh
+source env/setup.sh
 
-bagfile=`realpath $1`
+bagfile=`myreadlink $1`
 
-roslaunch dataset_ros offline_turtlebot2d.launch bag_filenames:=$realpath
+roslaunch dataset_ros offline_turtlebot2d.launch bag_filenames:=$bagfile
 

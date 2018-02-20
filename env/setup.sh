@@ -27,11 +27,11 @@ function ws_source {
   local ws1=""
   local ws2=""
   if [ -d "./catkin_ws" ] && [ -d "./carto_ws" ]; then
-    local ws1=`realpath ./catkin_ws`
-    local ws2=`realpath ./carto_ws`
+    local ws1=./catkin_ws
+    local ws2=./carto_ws
   elif [ -d "../catkin_ws" ] && [ -d "../carto_ws" ]; then
-    local ws1=`realpath ../catkin_ws`
-    local ws2=`realpath ../carto_ws`
+    local ws1=../catkin_ws
+    local ws2=../carto_ws
   else
     echo "There seems to be some problem!"
     echo "The workspace either has not been initialized correctly"

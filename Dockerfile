@@ -1,11 +1,12 @@
 FROM ros:indigo-perception as build
 
 WORKDIR /workspace/
-COPY ./env ./env 
 
 RUN apt-get update && apt-get install -y \
   python-wstool python-rosdep ninja-build \
   libreadline6 libreadline6-dev
+
+COPY ./env ./env
 
 RUN mkdir -p carto_ws/src && \
   wstool init carto_ws/src env/carto.rosinstall
@@ -26,15 +27,19 @@ FROM build
 
 WORKDIR /workspace/
 
-COPY ./scripts ./scripts
 COPY ./catkin_ws ./catkin_ws
+
+RUN rosdep install --from-paths catkin_ws/src --ignore-src --rosdistro=${ROS_DISTRO} -y;
 
 RUN /bin/bash -c 'cd catkin_ws && \
   source /opt/ros/indigo/setup.bash && \
   catkin_make install'
 
+COPY ./scripts ./scripts
+COPY ./env ./env 
 VOLUME /data
 
-ENTRYPOINT echo "What?"
+ENTRYPOINT []
+CMD [ "/bin/bash" ]
 
 
