@@ -26,7 +26,7 @@ def check(args):
 
 def fix(input_bag, output_bag, begin_time):
     info_dict = yaml.load(rosbag.bag.Bag(input_bag, 'r')._get_yaml_info())
-    start = rospy.Time.from_sec(info_dict.start)
+    start = rospy.Time.from_sec(info_dict['start'])
     with rosbag.Bag(output_bag,'w') as out_bag:
         for topic, msg, t in rosbag.Bag(input_bag).read_messages():
             diff_m = t - start
