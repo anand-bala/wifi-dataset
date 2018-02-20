@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     begin_time = rospy.Time.from_sec(time.time())
     if args.time:
-        begin_time = rospy.Time.from_sec(time.strptime(args.time, '%d %b %Y %H:%M:%S'))
+        begin_time = rospy.Time.from_sec(time.mktime(time.strptime(args.time, '%d %b %Y %H:%M:%S')))
 
     logging.info("Adjusting timestamps to begin at: %f", begin_time)
 
