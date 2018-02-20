@@ -7,6 +7,7 @@ import rosbag
 import rospy
 
 import os
+import sys
 import logging
 import yaml
 
@@ -53,8 +54,8 @@ if __name__ == '__main__':
 
     bags = check(args)
     if bags is None:
-        return 1
+        sys.exit(1)
 
-    return fix(bags[0], bags[1], begin_time)
+    sys.exit(fix(bags[0], bags[1], begin_time))
 
 
