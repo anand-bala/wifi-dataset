@@ -1,7 +1,7 @@
-FROM ros:indigo-perception AS setup-data
+FROM ros:indigo-perception as build
 
 WORKDIR /workspace/
-COPY . .
+COPY ./env ./env 
 
 RUN apt-get update && apt-get install -y \
   python-wstool python-rosdep ninja-build \
@@ -21,13 +21,20 @@ RUN /bin/bash -c 'cd carto_ws && \
   source /opt/ros/indigo/setup.bash && \
   catkin_make_isolated --install --use-ninja'
 
-RUN /bin/bash -c 'cd catkin_ws && \
-  source /opt/ros/indigo/setup.bash && \
-  catkin_make --install'
 
-FROM setup-data
+FROM build
 
 WORKDIR /workspace/
 
-CMD /bin/bash
+COPY ./scripts ./scripts
+COPY ./catkin_ws ./catkin_ws
+
+RUN /bin/bash -c 'cd catkin_ws && \
+  source /opt/ros/indigo/setup.bash && \
+  catkin_make install'
+
+VOLUME /data
+
+ENTRYPOINT echo "What?"
+
 
