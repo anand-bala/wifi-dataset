@@ -1,3 +1,7 @@
+# WiFi Dataset stuff
+carto_ws/
+protobuf/
+
 # Data folder and items
 data/
 *.bag
