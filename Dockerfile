@@ -9,11 +9,12 @@ RUN apt-get update && apt-get install -y \
 COPY ./env ./env
 COPY ./carto_ws ./carto_ws
 
-RUN carto_ws/src/cartographer/scripts/install_proto3.sh
+RUN ./carto_ws/src/cartographer/scripts/install_proto3.sh
 
 RUN rm /etc/ros/rosdep/sources.list.d/20-default.list; \
     rosdep init && \
     rosdep update; \
+    apt-get update && \
     rosdep install --from-paths carto_ws/src --ignore-src --rosdistro=${ROS_DISTRO} -y;
 
 RUN /bin/bash -c 'cd carto_ws && \
@@ -27,7 +28,8 @@ WORKDIR /workspace/
 
 COPY ./catkin_ws ./catkin_ws
 
-RUN rosdep install --from-paths catkin_ws/src --ignore-src --rosdistro=${ROS_DISTRO} -y;
+RUN apt-get update && \
+    rosdep install --from-paths catkin_ws/src --ignore-src --rosdistro=${ROS_DISTRO} -y;
 
 RUN /bin/bash -c 'cd catkin_ws && \
   source /opt/ros/indigo/setup.bash && \
