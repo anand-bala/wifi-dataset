@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
   realpath
 
 COPY ./env ./env
+COPY ./carto_ws ./carto_ws
 
 RUN carto_ws/src/cartographer/scripts/install_proto3.sh
 
