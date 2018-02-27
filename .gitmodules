@@ -6,3 +6,12 @@
 	path = catkin_ws/src/dataset_ros
 	url = git@gitlab.drones.cse.buffalo.edu:anand/dataset_ros.git
 	branch = master
+[submodule "carto_ws/src/cartographer"]
+	path = carto_ws/src/cartographer
+	url = https://github.com/googlecartographer/cartographer
+[submodule "carto_ws/src/cartographer_ros"]
+	path = carto_ws/src/cartographer_ros
+	url = https://github.com/googlecartographer/cartographer_ros
+[submodule "carto_ws/src/ceres-solver"]
+	path = carto_ws/src/ceres-solver
+	url = https://ceres-solver.googlesource.com/ceres-solver
