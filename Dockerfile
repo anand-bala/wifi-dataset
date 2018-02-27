@@ -4,12 +4,9 @@ WORKDIR /workspace/
 
 RUN apt-get update && apt-get install -y \
   python-wstool python-rosdep ninja-build \
-  libreadline6 libreadline6-dev
+  realpath
 
 COPY ./env ./env
-
-RUN mkdir -p carto_ws/src && \
-  wstool init carto_ws/src env/carto.rosinstall
 
 RUN carto_ws/src/cartographer/scripts/install_proto3.sh
 

@@ -15,3 +15,6 @@
 [submodule "carto_ws/src/ceres-solver"]
 	path = carto_ws/src/ceres-solver
 	url = https://ceres-solver.googlesource.com/ceres-solver
+[submodule "carto_ws/src/cartographer_turtlebot"]
+	path = carto_ws/src/cartographer_turtlebot
+	url = https://github.com/googlecartographer/cartographer_turtlebot
