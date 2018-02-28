@@ -1,0 +1,11 @@
+**/Dockerfile*
+**/.dockerignore
+**/.git
+
+**/devel/
+**/build/
+**/install/
+**/devel_isolated/
+**/build_isolated/
+**/install_isolated/
+
