@@ -24,7 +24,7 @@ class AccessPointsReader:
             self.rate.sleep()
 
     def fixStrength(self, val):
-        return struct.unpack('B', strength)[0]
+        return struct.unpack('B', val)[0]
 
     def getAccessPoints(self):
         params = ""
@@ -32,9 +32,16 @@ class AccessPointsReader:
             for dev in NetworkManager.NetworkManager.GetDevices():
                 if dev.DeviceType != NetworkManager.NM_DEVICE_TYPE_WIFI:
                     continue
-                aps = [ap for ap in dev.SpecificDevice().GetAccessPoints()]
+		aps = [ap for ap in dev.SpecificDevice().GetAccessPoints()]
                 for ap in sorted(aps, key=lambda ap: ap.Ssid):
-                    params += "({0};{1};{2}),".format(ap.Ssid, ap.HwAddress, ap.Strength if not config.convertHWAddress else self.fixStrength(ap.Strength))
+		    if ap.Ssid=="Zaki":
+			if config.convertHWAddress:
+			    print "true"
+			else:
+			    print "false"  
+			print self.fixStrength(ap.Strength)
+                    #params += "({0};{1};{2}),".format(ap.Ssid, ap.HwAddress, ap.Strength if not config.convertHWAddress else self.fixStrength(ap.Strength))
+                    params += "({0};{1};{2}),".format(ap.Ssid, ap.HwAddress, self.fixStrength(ap.Strength))
             params = params[:-1]
         except Exception:
             pass

@@ -6,6 +6,8 @@ from std_msgs.msg import String
 from manual_measurements.msg import AccessPointInfo
 from manual_measurements.msg import WifiInfo
 
+from scapy.all import *
+
 import config
 import re
 import subprocess
@@ -27,7 +29,7 @@ class AccessPointsReader:
     def __init__(self):
         rospy.init_node('AccessPointsReader', anonymous=True)
         self.rate = rospy.Rate(10)
-        self.pub = rospy.Publisher('APInfo2', WifiInfo, queue_size=10)
+        self.pub = rospy.Publisher('APInfo', WifiInfo, queue_size=10)
 
     def run(self):
         while not rospy.is_shutdown():
@@ -80,8 +82,21 @@ class AccessPointsReader:
             pass
         return aps
 
+def PacketHandler(pkt) :
+  if pkt.haslayer(Dot11) :
+    if pkt.type == 0 and pkt.subtype == 8 :
+      if pkt.haslayer(Dot11Beacon) or pkt.haslayer(Dot11ProbeResp):
+        try:
+            extra = pkt.notdecoded
+            rssi = -(256-ord(extra[-4:-3]))
+        except:
+            rssi = -100
+        print "WiFi signal strength:", rssi, "dBm of", pkt.addr2, pkt.info
+
+
 def main():
-    AccessPointsReader().run()
+    sniff(iface="wlan0", prn = PacketHandler)
+#    AccessPointsReader().run()
 
 if __name__ == "__main__":
     main()
