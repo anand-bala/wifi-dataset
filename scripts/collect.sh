@@ -5,6 +5,7 @@ if [ "$#" -ne "2" ]; then
   exit 1
 fi
 
+mkdir -p $1
 target_dir=`realpath $1`
 prefix=$2
 
@@ -14,6 +15,7 @@ echo "$target_dir/${prefix}.bag"
 
 rosbag record -O $target_dir/${prefix}.bag \
 	/APInfo \
+	/APInfo2 \
 	/camera/depth_registered/image_raw \
 	/camera/rgb/camera_info \
 	/camera/rgb/image_color \
