@@ -39,10 +39,10 @@ def fix(input_bag, output_bag, begin_time):
                     transform.header.stamp = th_
             else:
                 diff_m = t - start
-                # diff_h = msg.header.stamp - start
+                diff_h = msg.header.stamp - start
                 tm_ = begin_time + diff_m
                 th_ = begin_time + diff_h
-                # msg.header.stamp = th_
+                msg.header.stamp = th_
             out_bag.write(topic, msg, tm_) 
 
     return 0
