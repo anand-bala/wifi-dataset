@@ -20,7 +20,6 @@ rosbag record -O $target_dir/${prefix}.bag \
 	/camera/rgb/camera_info \
 	/camera/rgb/image_color \
 	/camera/rgb/image_raw \
-	/camera/rgb/image_rect_color \
 	/odom \
 	/tf \
 	/velodyne_points \
