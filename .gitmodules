@@ -18,3 +18,6 @@
 [submodule "carto_ws/src/cartographer_turtlebot"]
 	path = carto_ws/src/cartographer_turtlebot
 	url = https://github.com/googlecartographer/cartographer_turtlebot
+[submodule "tools/protobuf"]
+	path = tools/protobuf
+	url = https://github.com/google/protobuf.git

@@ -17,32 +17,38 @@ cd $working_dir
 
 git submodule update --init
 
+cd ./tools/protobuf
+git checkout tags/v3.4.1
+mkdir -p build
+cd build
+cmake -G Ninja \
+  -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
+  -DCMAKE_BUILD_TYPE=Release \
+  -Dprotobuf_BUILD_TESTS=OFF \
+  ../cmake
+ninja
+sudo ninja install
+
+
 source /opt/ros/indigo/setup.bash
 
 sudo apt-get update && sudo apt-get install -y \
   python-wstool python-rosdep ninja-build
 
-mkdir -p carto_ws/src && \
-  wstool init carto_ws/src env/carto.rosinstall
-
-wstool update -t carto_ws/src
-
-./carto_ws/src/cartographer/scripts/install_proto3.sh
-
 sudo rm /etc/ros/rosdep/sources.list.d/20-default.list;
 
+cd $working_dir
 sudo rosdep init && rosdep update;
-rosdep install --from-paths carto_ws/src --ignore-src --rosdistro=${ROS_DISTRO} -y;
+rosdep install --from-paths carto_ws/src catkin_ws/src --ignore-src --rosdistro=${ROS_DISTRO} -y;
 
+cd $working_dir
+source ./carto_ws/install_isolated/setup.sh
 cd carto_ws && \
   catkin_make_isolated --install --use-ninja
 
-
-
-rosdep install --from-paths catkin_ws/src --ignore-src --rosdistro=${ROS_DISTRO} -y;
-
+cd $working_dir
 cd catkin_ws && \
-  catkin_make install
+  catkin_make
 
 
 

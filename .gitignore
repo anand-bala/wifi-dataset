@@ -1,7 +1,5 @@
 # WiFi Dataset stuff
-protobuf/
-
-# Data folder and items
+## Data folder and items
 data/
 *.bag
 
