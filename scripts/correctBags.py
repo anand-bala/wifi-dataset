@@ -15,7 +15,7 @@ import sensor_msgs
 import sensor_msgs.point_cloud2 as pc2
 
 CONFIG = {
-    laserscan: {
+    'laserscan': {
       'transform_tolerance':  0.01,
       'min_height':           -0.3,
       'max_height':           0.3,
@@ -27,24 +27,21 @@ CONFIG = {
       'range_max':            100.0,
       'use_inf':              True,
       'inf_epsilon':          1.0,
-      }
+      },
+    'max_offset': 60,
     }
 
-OUTPUT_BAG = 'output.bag'
-n_bags = 0
-n_complete = 0
 
 def status(bag, length, percent):
   sys.stdout.write('\x1B[2K') # Erase entire current line
   sys.stdout.write('\x1B[0E') # Move to the beginning of the current line
-  progress = bag + " -- Progress: ["
+  progress = bag + " ["
   for i in range(0, length):
     if i < length * percent:
       progress += '='
     else:
       progress += ' '
   progress += "] " + str(round(percent * 100.0, 2)) + "%"
-  progress += "\t Files [" + (n_complete + 1) + "/" + n_bags + "]"
   sys.stdout.write(progress)
   sys.stdout.flush()
 
@@ -56,11 +53,10 @@ def main(args):
   parser.add_argument('--output-bag', nargs=1, help='output file for bags.', default='output.bag')
   args = parser.parse_args()
 
-  with open(args.output_bag[0], 'w') as outbag:
+  with rosbag.Bag(args.output_bag[0], 'w') as outbag:
     n_bags = len(args.bagfiles)
     for bagfile in args.bagfiles:
       correctBag(bagfile, outbag)
-      n_complete += 1
 
 
 def correctBag(bagfile, outbag):
@@ -70,7 +66,7 @@ def correctBag(bagfile, outbag):
   start_time = info_dict['start']
 
   last_time = time.clock()
-  for topic, msg, t in rosbag.Bag(inbag).read_messages():
+  for topic, msg, t in rosbag.Bag(bagfile).read_messages():
     if time.clock() - last_time > .1:
       percent = (t.to_sec() - start_time) / duration
       status(bagfile, 40, percent)
@@ -81,11 +77,11 @@ def correctBag(bagfile, outbag):
     if topic == "/tf" and msg.transforms:
       # Writing transforms to bag file 1 second ahead of time to ensure availability
       diff = math.fabs(msg.transforms[0].header.stamp.to_sec() - t.to_sec())
-      outbag.write(topic, msg, msg.transforms[0].header.stamp - rospy.Duration(1) if diff < args.max_offset else t)
+      outbag.write(topic, msg, msg.transforms[0].header.stamp - rospy.Duration(1) if diff < CONFIG['max_offset'] else t)
     elif msg._has_header:
       diff = math.fabs(msg.header.stamp.to_sec() - t.to_sec())
       topic, msg = correctMsg(topic, msg)
-      outbag.write(topic, msg, msg.header.stamp if diff < args.max_offset else t)
+      outbag.write(topic, msg, msg.header.stamp if diff < CONFIG['max_offset'] else t)
     else:
       outbag.write(topic, msg, t)
   status(bagfile, 40, 1)
@@ -136,7 +132,7 @@ def getLaserScan(msg):
     angle = math.atan2(x,y)
     if not scan.angle_min <= angle <= scan.angle_max:
       continue
-    i = (angle - scan.angle_min) / scan.angle_increment;
+    i = int((angle - scan.angle_min) / scan.angle_increment);
     if r < scan.ranges[i]:
       scan.ranges[i] = r
     return '/scan', scan

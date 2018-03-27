@@ -9,7 +9,7 @@ fi
 
 sessions_dir=`realpath $1`
 orig_dir="${sessions_dir/sessions/tmp}"
-output_file="${sessions_dir/sessions/outputs}.pbstream"
+output_file="${sessions_dir/sessions/outputs}/trajectory.pbstream"
 output_dir=$(dirname "${output_file}")
 sessions=$(ls -d $sessions_dir/*.bag)
 
@@ -38,10 +38,14 @@ cd $working_dir
 
 ./scripts/correctBags.py --output-bag $orig_dir/output.bag $sessions
 ./scripts/ts1.py $orig_dir/output.bag
-rosbag info $orig_dir/output.bag
+rosbag info $orig_dir/output.bag > $orig_dir/info.yaml
 
 source ./env/setup.sh
 roslaunch dataset_ros offline_turtlebot2d.launch bag_filenames:=$orig_dir/output.bag
 
 mv -v -f $orig_dir/output.bag.pbstream $output_file
+mv -v -f $orig_dir/baginfo.yaml $output_dir/
+roslaunch dataset_ros dump_trajectory.launch -pbfile $output_file -outfile $output_dir/trajectory.csv
+
+
 
