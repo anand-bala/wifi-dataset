@@ -44,8 +44,8 @@ source ./env/setup.sh
 roslaunch dataset_ros offline_turtlebot2d.launch bag_filenames:=$orig_dir/output.bag
 
 mv -v -f $orig_dir/output.bag.pbstream $output_file
-mv -v -f $orig_dir/baginfo.yaml $output_dir/
-roslaunch dataset_ros dump_trajectory.launch -pbfile $output_file -outfile $output_dir/trajectory.csv
+mv -v -f $orig_dir/info.yaml $output_dir/
+roslaunch dataset_ros dump_trajectory.launch pbfile:=$output_file outfile:=$output_dir/trajectory.csv
 
 
 
