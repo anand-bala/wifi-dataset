@@ -53,7 +53,7 @@ def main(args):
   parser.add_argument('--output-bag', nargs=1, help='output file for bags.', default='output.bag')
   args = parser.parse_args()
 
-  with rosbag.Bag(args.output_bag[0], 'w') as outbag:
+  with rosbag.Bag(args.output_bag, 'w') as outbag:
     n_bags = len(args.bagfiles)
     for bagfile in args.bagfiles:
       correctBag(bagfile, outbag)
