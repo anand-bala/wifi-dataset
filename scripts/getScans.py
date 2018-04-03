@@ -54,7 +54,7 @@ def main(args):
   parser = argparse.ArgumentParser(description='Clean up bags for Dataset.')
   parser.add_argument('bagfiles', nargs='+', help='input bag files')
   parser.add_argument('--max-offset', nargs=1, help='max time offset (sec) to correct.', default='2', type=float)
-  parser.add_argument('--output-bag', nargs=1, help='output file for bags.', default='scans.bag')
+  parser.add_argument('--output-bag', help='output file for bags.', default='scans.bag')
   args = parser.parse_args()
 
   with rosbag.Bag(args.output_bag, 'w') as outbag:
