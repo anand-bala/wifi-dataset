@@ -28,7 +28,11 @@ CONFIG = {
       'use_inf':              True,
       'inf_epsilon':          1.0,
       },
-    'max_offset': 60,
+    'max_offset': 2.0,
+    'topics': [
+        '/tf', '/scan', '/imu', '/odom',
+        '/mobile_base/sensors/imu_data_raw', '/velodyne_points',
+        ],
     }
 
 
@@ -49,8 +53,8 @@ def status(bag, length, percent):
 def main(args):
   parser = argparse.ArgumentParser(description='Clean up bags for Dataset.')
   parser.add_argument('bagfiles', nargs='+', help='input bag files')
-  parser.add_argument('--max-offset', nargs=1, help='max time offset (sec) to correct.', default='60', type=float)
-  parser.add_argument('--output-bag', nargs=1, help='output file for bags.', default='output.bag')
+  parser.add_argument('--max-offset', nargs=1, help='max time offset (sec) to correct.', default='2', type=float)
+  parser.add_argument('--output-bag', help='output file for bags.', default='scans.bag')
   args = parser.parse_args()
 
   with rosbag.Bag(args.output_bag, 'w') as outbag:
@@ -72,6 +76,8 @@ def correctBag(bagfile, outbag):
       status(bagfile, 40, percent)
       last_time = time.clock()
 
+    if topic not in CONFIG['topics']:
+        continue
     # This also replaces tf timestamps under the assumption 
     # that all transforms in the message share the same timestamp
     if topic == "/tf" and msg.transforms:

@@ -80,7 +80,7 @@ def correctBag(bagfile, outbag):
       outbag.write(topic, msg, msg.transforms[0].header.stamp - rospy.Duration(1) if diff < CONFIG['max_offset'] else t)
     elif msg._has_header:
       diff = math.fabs(msg.header.stamp.to_sec() - t.to_sec())
-      topic, msg = correctMsg(topic, msg)
+      # topic, msg = correctMsg(topic, msg)
       outbag.write(topic, msg, msg.header.stamp if diff < CONFIG['max_offset'] else t)
     else:
       outbag.write(topic, msg, t)

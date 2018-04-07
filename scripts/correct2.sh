@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ]; then
-  echo "usage: $0 <session-dir>"
+  echo "usage: $0 <rosbag-dir>"
   exit 1
 fi
 
