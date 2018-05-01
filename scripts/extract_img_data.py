@@ -36,9 +36,7 @@ class Extractor:
         outfile = os.path.join(self.output_dir,
                                datetime.fromtimestamp(t.to_sec()).strftime('%Y-%m-%d'),
                                topic.strip("/"), str(t.secs), str(t) + '.png')
-        print("Saving to {}".format(outfile))
         outdir = os.path.dirname(outfile)
-        print("Dir -> {}".format(outdir))
         mkdir_p(outdir)
         cv2.imwrite(outfile, cv_image)
 
@@ -47,6 +45,7 @@ def main(output_dir, input_files):
     # type: (str, list[str]) -> None
     ex = Extractor(output_dir)
     for bagfile in input_files:
+        print('Extracting images from: {}'.format(bagfile))
         bag = rosbag.Bag(bagfile)
         for topic, msg, t in bag.read_messages():
             if msg._type == 'sensor_msgs/Image':
