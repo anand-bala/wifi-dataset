@@ -4,7 +4,7 @@
 	branch = master
 [submodule "catkin_ws/src/dataset_ros"]
 	path = catkin_ws/src/dataset_ros
-	url = git@gitlab.drones.cse.buffalo.edu:anand/dataset_ros.git
+	url = git@github.com:anand-bala/dataset_ros.git
 	branch = master
 [submodule "carto_ws/src/cartographer"]
 	path = carto_ws/src/cartographer
